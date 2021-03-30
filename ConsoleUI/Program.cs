@@ -28,7 +28,7 @@ namespace ConsoleUI
             ProductManager productManager = new ProductManager(new EfProductDal());
             foreach (var product in productManager.GetProducDetails())
             {
-                Console.WriteLine(product.ProductNane+" ********* "+product.CategoryName);
+                Console.WriteLine(product.ProductNane+" - "+product.CategoryName);
             }
             
 
