@@ -11,7 +11,7 @@ namespace ConsoleUI
         {
             ProductTest();
             //CategoryTest();
-            
+
         }
 
         private static void CategoryTest()
@@ -26,11 +26,20 @@ namespace ConsoleUI
         private static void ProductTest()
         {
             ProductManager productManager = new ProductManager(new EfProductDal());
-            foreach (var product in productManager.GetProducDetails())
+            var result = productManager.GetAll();
+            if (result.Success==true)
             {
-                Console.WriteLine(product.ProductNane+" - "+product.CategoryName);
+                foreach (var product in productManager.GetAll().Data)
+                {
+                    Console.WriteLine(product.ProductName);
+                }
             }
-            
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+
+
 
         }
     }

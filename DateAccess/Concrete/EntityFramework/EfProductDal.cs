@@ -21,7 +21,7 @@ namespace DateAccess.Concrete.EntityFramework
                              join c in context.Categories
                              on p.CategoryId equals c.CategoryId
                              select new ProductDetailDto {ProductID=p.ProductId,
-                                 ProductNane= p.ProductName,
+                                 ProductName= p.ProductName,
                                  CategoryName =c.CategoryName,
                                  UnitsInStock=p.UnitsInStock
                              };
