@@ -1,6 +1,10 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Bussiness;
@@ -28,7 +32,9 @@ namespace Business.Concrete
             _categoryService = categoryService;
         }
 
+        [SecuredOperation("product_add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {
            IResult result= BussinessRules.Run(CheckIfProductCountOfCategoryCorrect(product.CategoryId),
@@ -43,7 +49,33 @@ namespace Business.Concrete
 
         }
 
-        public IDateResult<List<Product>> GetAll()
+        [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
+        public IResult Update(Product product)
+        {
+            var result = _productDal.GetAll(p => p.CategoryId == product.CategoryId).Count;
+            if (result >= 10)
+            {
+                return new ErrorResult(Messages.ProductCountOfCategoryError);
+            }
+            throw new NotImplementedException();
+        }
+
+        public IResult Delete(Product product)
+        {
+            _productDal.Delete(product);
+            return new SuccessResult("silindi");
+        }
+
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(Product product)
+        {
+            // transaction tested 
+            throw new NotImplementedException();
+        }
+
+        [CacheAspect]
+        public IDataResult<List<Product>> GetAll()
         {
             if (DateTime.Now.Hour == 19)
             {
@@ -52,22 +84,24 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(), Messages.ProductListed);
         }
 
-        public IDateResult<List<Product>> GetAllByCategoryId(int id)
+        public IDataResult<List<Product>> GetAllByCategoryId(int id)
         {
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.CategoryId == id));
         }
 
-        public IDateResult<Product> GetById(int productId)
+        [CacheAspect]
+        [PerformanceAspect(5)]
+        public IDataResult<Product> GetById(int productId)
         {
             return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == productId));
         }
 
-        public IDateResult<List<Product>> GetbyUnitPrice(decimal min, decimal max)
+        public IDataResult<List<Product>> GetbyUnitPrice(decimal min, decimal max)
         {
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.UnitPrice >= min && p.UnitPrice <= max));
         }
 
-        public IDateResult<List<ProductDetailDto>> GetProducDetails()
+        public IDataResult<List<ProductDetailDto>> GetProducDetails()
         {
             return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProducDetails());
         }
@@ -103,5 +137,6 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
+     
     }
 }
