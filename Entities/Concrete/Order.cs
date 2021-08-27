@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DateAccess.Concrete
+namespace Entities.Concrete
 {
     public class Order:IEntity
     {

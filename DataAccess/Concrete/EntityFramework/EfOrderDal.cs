@@ -1,12 +1,13 @@
 ﻿using Core.DateAccess.EntityFramework;
-using DateAccess.Abstract;
+using DataAccess.Abstract;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DateAccess.Concrete.EntityFramework
+namespace DataAccess.Concrete.EntityFramework
 {
     public class EfOrderDal:EfEntityRepositoryBase<Order,NorthwindContext>,IOrderDal
     {

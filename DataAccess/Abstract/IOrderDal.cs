@@ -6,10 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DateAccess.Abstract
+namespace DataAccess.Abstract
 {
-    public interface ICategoryDal:IEntityRepository<Category>
+   public interface IOrderDal:IEntityRepository<Order>
     {
-
     }
 }

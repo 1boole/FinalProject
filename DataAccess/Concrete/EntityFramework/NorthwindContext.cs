@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DateAccess.Concrete.EntityFramework
+namespace DataAccess.Concrete.EntityFramework
 {
     public class NorthwindContext:DbContext
     {

@@ -1,13 +1,13 @@
 ﻿using Core.DateAccess.EntityFramework;
 using Core.Entities.Concrete;
-using DateAccess.Abstract;
+using DataAccess.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DateAccess.Concrete.EntityFramework
+namespace DataAccess.Concrete.EntityFramework
 {
     public class EfUserDal : EfEntityRepositoryBase<User, NorthwindContext>, IUserDal
     {
