@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace WebAPI2.Controllers
@@ -23,7 +24,31 @@ namespace WebAPI2.Controllers
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
+            Thread.Sleep(1000);
+
             var result = _productService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbycategory")]
+        public IActionResult GetAllByCategoryId(int categoryId)
+        {
+            var result = _productService.GetAllByCategoryId(categoryId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbyproductdetails")]
+        public IActionResult GetProductDetails(int categoryId)
+        {
+            var result = _productService.GetProductDetails();
             if (result.Success)
             {
                 return Ok(result);

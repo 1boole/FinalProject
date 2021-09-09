@@ -101,16 +101,16 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.UnitPrice >= min && p.UnitPrice <= max));
         }
 
-        public IDataResult<List<ProductDetailDto>> GetProducDetails()
+        public IDataResult<List<ProductDetailDto>> GetProductDetails()
         {
-            return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProducDetails());
+            return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails());
         }
 
 
         private IResult CheckIfProductCountOfCategoryCorrect(int categoryId)
         {
             var result = _productDal.GetAll(p => p.CategoryId == categoryId).Count;
-            if (result >= 10)
+            if (result >= 100)
             {
                 return new ErrorResult(Messages.ProductCountOfCategoryError);
             }
